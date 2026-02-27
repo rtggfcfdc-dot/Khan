@@ -1,1112 +1,351 @@
 <!DOCTYPE html>
-
 <html lang="mn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khan Bank — Гүйлгээ баталгаажуулах</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <!-- Responsive meta tag indispensable -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Гүйлгээ идэвхжүүлэх – амжилттай</title>
+  <!-- Police lisible sur petits écrans -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-  /* ═══════════════════════════════════════════
-     RESET & TOKENS
-  ═══════════════════════════════════════════ */
-  *, *::before, *::after {
-    margin: 0; padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  :root {
-    /* — vert — */
-    --green-900: #002D18;
-    --green-800: #004D2C;
-    --green-700: #006B3C;
-    --green-600: #008A4B;
-    --green-500: #00A85A;
-    --green-400: #00C96F;
-    --green-300: #33D98A;
-    --green-100: #E6F7EF;
-    --green-50:  #F2FBF6;
-
-    /* — neutre — */
-    --white:     #FFFFFF;
-    --gray-50:   #F8F8F8;
-    --gray-100:  #F0F0F0;
-    --gray-200:  #E0E0E0;
-    --gray-400:  #9E9E9E;
-    --gray-600:  #5C5C5C;
-    --gray-900:  #121212;
-
-    /* — orange avertissement — */
-    --warn:      #E07B20;
-    --warn-bg:   #FFF4E8;
-    --warn-light:#FDE8CC;
-
-    /* — ombres — */
-    --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
-    --shadow-green: 0 8px 24px rgba(0,107,60,0.28);
-
-    /* — typographie — */
-    --font: 'Plus Jakarta Sans', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-  }
-
-  html, body {
-    font-family: var(--font);
-    background: var(--white);
-    color: var(--gray-900);
-    min-height: 100dvh;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ═══════════════════════════════════════════
-     LAYOUT SHELL
-  ═══════════════════════════════════════════ */
-  .app {
-    display: flex;
-    min-height: 100dvh;
-  }
-
-  /* ═══════════════════════════════════════════
-     SIDEBAR  (desktop ≥1024px)
-  ═══════════════════════════════════════════ */
-  .sidebar {
-    display: none;
-    width: 256px;
-    flex-shrink: 0;
-    background: var(--green-800);
-    flex-direction: column;
-    position: fixed;
-    inset: 0 auto 0 0;
-    z-index: 200;
-    overflow: hidden;
-  }
-
-  /* motif géométrique subtil sur la sidebar */
-  .sidebar::before {
-    content: '';
-    position: absolute;
-    top: -80px; right: -80px;
-    width: 260px; height: 260px;
-    border-radius: 50%;
-    border: 60px solid rgba(255,255,255,0.04);
-    pointer-events: none;
-  }
-  .sidebar::after {
-    content: '';
-    position: absolute;
-    bottom: 60px; left: -60px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    border: 40px solid rgba(255,255,255,0.03);
-    pointer-events: none;
-  }
-
-  .sb-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 32px 24px 28px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    position: relative;
-    z-index: 1;
-  }
-  .sb-icon {
-    width: 44px; height: 44px;
-    background: var(--white);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 800;
-    color: var(--green-800);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    flex-shrink: 0;
-  }
-  .sb-brand-name { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: 1.5px; display: block; }
-  .sb-brand-sub  { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.45); letter-spacing: 1px; text-transform: uppercase; }
-
-  .sb-nav {
-    flex: 1;
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    position: relative; z-index: 1;
-  }
-  .sb-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 11px 14px; border-radius: 12px;
-    color: rgba(255,255,255,0.5);
-    font-size: 14px; font-weight: 600;
-    cursor: pointer;
-    transition: all 0.18s;
-    letter-spacing: 0.2px;
-  }
-  .sb-item:hover  { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); }
-  .sb-item.active { background: var(--green-700); color: var(--white); }
-  .sb-item.active svg { opacity: 1; }
-  .sb-item svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; opacity: 0.7; }
-
-  .sb-footer {
-    padding: 20px 24px 28px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    position: relative; z-index: 1;
-  }
-  .sb-user { display: flex; align-items: center; gap: 12px; }
-  .sb-avatar {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: var(--green-500);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 700; color: var(--white);
-    flex-shrink: 0;
-  }
-  .sb-user-name { font-size: 14px; font-weight: 700; color: var(--white); }
-  .sb-user-sub  { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 500; }
-
-  /* ═══════════════════════════════════════════
-     MAIN COLUMN
-  ═══════════════════════════════════════════ */
-  .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    background: var(--white);
-    overflow: hidden;
-  }
-
-  /* ═══════════════════════════════════════════
-     TOPBAR  (tablet ≥640 + desktop ≥1024)
-  ═══════════════════════════════════════════ */
-  .topbar {
-    display: none;
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-100);
-    padding: 0 28px;
-    height: 64px;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky; top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .topbar-left { display: flex; align-items: center; gap: 20px; }
-
-  /* logo tablet (masqué en desktop car sidebar présente) */
-  .topbar-logo {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .topbar-logo-icon {
-    width: 36px; height: 36px; background: var(--green-700);
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; color: var(--white);
-  }
-  .topbar-logo-name { font-size: 15px; font-weight: 800; color: var(--green-800); letter-spacing: 1px; }
-
-  .topbar-divider { width: 1px; height: 28px; background: var(--gray-200); }
-
-  .topbar-breadcrumb {
-    font-size: 13px; color: var(--gray-400); font-weight: 500;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .topbar-breadcrumb strong { color: var(--gray-900); font-weight: 700; }
-  .topbar-breadcrumb svg { width: 12px; height: 12px; stroke: var(--gray-400); fill: none; stroke-width: 2; }
-
-  .topbar-right { display: flex; align-items: center; gap: 12px; }
-
-  .topbar-status {
-    display: flex; align-items: center; gap: 7px;
-    background: var(--green-100);
-    padding: 7px 14px; border-radius: 100px;
-    font-size: 12px; font-weight: 700; color: var(--green-700);
-    border: 1px solid rgba(0,168,90,0.2);
-  }
-  .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green-500); animation: pulsing 1.6s ease-in-out infinite; }
-  @keyframes pulsing {
-    0%,100% { transform: scale(1); opacity: 1; }
-    50%      { transform: scale(1.4); opacity: 0.7; }
-  }
-
-  .topbar-avatar {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: var(--green-700);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 700; color: var(--white);
-    cursor: pointer;
-  }
-
-  /* ═══════════════════════════════════════════
-     MOBILE HEADER   (visible < 640px)
-  ═══════════════════════════════════════════ */
-  .mobile-header {
-    background: var(--green-800);
-    padding: 52px 20px 36px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* cercles décoratifs verts */
-  .mh-circle1 {
-    position: absolute; top: -50px; right: -50px;
-    width: 220px; height: 220px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,201,111,0.18) 0%, transparent 70%);
-    animation: breathe 7s ease-in-out infinite;
-  }
-  .mh-circle2 {
-    position: absolute; bottom: -60px; left: -40px;
-    width: 200px; height: 200px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,169,90,0.14) 0%, transparent 70%);
-    animation: breathe 9s ease-in-out infinite reverse;
-  }
-  @keyframes breathe {
-    0%,100% { transform: scale(1); }
-    50%      { transform: scale(1.1); }
-  }
-
-  .mh-top {
-    display: flex; align-items: center; justify-content: space-between;
-    position: relative; z-index: 2;
-    margin-bottom: 28px;
-    opacity: 0; transform: translateY(-8px);
-    animation: fromTop 0.45s 0.1s cubic-bezier(0.16,1,0.3,1) forwards;
-  }
-  @keyframes fromTop { to { opacity:1; transform:translateY(0); } }
-
-  .mh-back {
-    width: 40px; height: 40px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; backdrop-filter: blur(8px);
-    transition: background 0.15s;
-  }
-  .mh-back:active { background: rgba(255,255,255,0.22); }
-
-  .mh-brand { display: flex; align-items: center; gap: 10px; }
-  .mh-logo {
-    width: 40px; height: 40px; background: var(--white);
-    border-radius: 11px; display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 800; color: var(--green-800);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  }
-  .mh-name { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: 1.5px; display: block; }
-  .mh-sub  { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.55); letter-spacing: 1.5px; text-transform: uppercase; }
-
-  .mh-amount-area {
-    position: relative; z-index: 2;
-    opacity: 0; transform: translateY(14px);
-    animation: fromBottom 0.6s 0.25s cubic-bezier(0.16,1,0.3,1) forwards;
-  }
-  @keyframes fromBottom { to { opacity:1; transform:translateY(0); } }
-
-  .mh-label {
-    font-size: 11px; font-weight: 700;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 2px; text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .mh-amount {
-    font-size: clamp(34px, 9vw, 46px);
-    font-weight: 800; color: var(--white);
-    letter-spacing: -1px; line-height: 1;
-  }
-  .mh-amount sub { font-size: 16px; font-weight: 600; opacity: 0.65; vertical-align: middle; }
-
-  .mh-meta {
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    margin-top: 14px;
-    font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500;
-  }
-  .mh-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--green-400);
-    animation: pulsing 1.6s ease-in-out infinite;
-    box-shadow: 0 0 8px var(--green-400);
-    flex-shrink: 0;
-  }
-
-  /* ═══════════════════════════════════════════
-     CONTENT  (scrollable)
-  ═══════════════════════════════════════════ */
-  .content {
-    flex: 1;
-    padding: 16px 16px 100px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .content::-webkit-scrollbar { width: 3px; }
-  .content::-webkit-scrollbar-thumb { background: var(--green-300); border-radius: 3px; }
-
-  /* ── DESKTOP HERO CARD  (caché en mobile/tablet) ── */
-  .hero-card {
-    display: none;
-    background: var(--green-800);
-    border-radius: 24px;
-    padding: 36px 40px;
-    position: relative; overflow: hidden;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow-green);
-  }
-  .hero-card::before {
-    content: '';
-    position: absolute; top: -60px; right: -60px;
-    width: 280px; height: 280px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,201,111,0.2) 0%, transparent 70%);
-    animation: breathe 7s ease-in-out infinite;
-  }
-  .hero-label {
-    font-size: 11px; font-weight: 700; letter-spacing: 2px;
-    color: rgba(255,255,255,0.5); text-transform: uppercase;
-    margin-bottom: 8px; position: relative; z-index: 1;
-  }
-  .hero-amount {
-    font-size: clamp(36px, 4vw, 54px); font-weight: 800;
-    color: var(--white); letter-spacing: -1.5px; line-height: 1;
-    position: relative; z-index: 1;
-    opacity: 0; transform: translateY(12px);
-    animation: fromBottom 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
-  }
-  .hero-amount sub { font-size: 20px; font-weight: 600; opacity: 0.65; vertical-align: middle; }
-  .hero-meta {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    margin-top: 14px; font-size: 14px; color: rgba(255,255,255,0.65); font-weight: 500;
-    position: relative; z-index: 1;
-    opacity: 0; animation: fromBottom 0.6s 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
-  }
-  .hero-meta .mh-dot { background: var(--green-400); box-shadow: 0 0 8px var(--green-400); }
-
-  /* ═══════════════════════════════════════════
-     GRID
-  ═══════════════════════════════════════════ */
-  .grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  /* ═══════════════════════════════════════════
-     CARD
-  ═══════════════════════════════════════════ */
-  .card {
-    background: var(--white);
-    border-radius: 22px;
-    padding: 22px 20px;
-    border: 1px solid var(--gray-100);
-    box-shadow: var(--shadow-sm);
-    opacity: 0; transform: translateY(20px);
-    animation: cardIn 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
-  }
-  .card:nth-child(1) { animation-delay: 0.35s; }
-  .card:nth-child(2) { animation-delay: 0.5s;  }
-  .card:nth-child(3) { animation-delay: 0.65s; }
-  .card:nth-child(4) { animation-delay: 0.8s;  }
-  @keyframes cardIn { to { opacity:1; transform:translateY(0); } }
-
-  .card-title {
-    font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
-    text-transform: uppercase; color: var(--gray-400);
-    margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .card-title svg { width: 13px; height: 13px; stroke: var(--green-600); fill: none; stroke-width: 2.5; }
-  .card-title::after { content:''; flex:1; height:1px; background: var(--gray-100); }
-
-  /* info rows */
-  .row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--gray-50);
-  }
-  .row:last-of-type { border-bottom: none; padding-bottom: 0; }
-  .row-label {
-    font-size: 13px; color: var(--gray-600); font-weight: 500;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .row-label svg { width: 14px; height: 14px; stroke: var(--green-600); fill: none; stroke-width: 2; flex-shrink: 0; }
-  .row-value { font-size: 14px; font-weight: 700; color: var(--gray-900); text-align: right; }
-  .row-value.big { font-size: 22px; font-weight: 800; color: var(--green-800); }
-  .row-value sub { font-size: 12px; font-weight: 600; color: var(--gray-400); vertical-align: middle; }
-
-  /* account chip */
-  .acct {
-    background: var(--green-50);
-    border: 1px solid var(--green-100);
-    border-radius: 14px; padding: 13px 16px;
-    margin-top: 10px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .acct-label { font-size: 11px; font-weight: 600; color: var(--green-700); }
-  .acct-num {
-    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
-    color: var(--green-800);
-    background: var(--white);
-    padding: 5px 11px; border-radius: 8px;
-    border: 1px solid var(--green-100);
-    letter-spacing: 0.5px;
-  }
-
-  /* fee chip */
-  .fee {
-    background: var(--warn-bg);
-    border: 1px solid var(--warn-light);
-    border-radius: 16px; padding: 14px 16px;
-    margin-top: 12px;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 12px;
-  }
-  .fee-info { flex: 1; }
-  .fee-name { font-size: 12px; font-weight: 800; color: var(--warn); margin-bottom: 2px; letter-spacing: 0.3px; }
-  .fee-desc { font-size: 11px; color: #B07040; font-weight: 500; }
-  .fee-val  { font-size: 21px; font-weight: 800; color: var(--warn); white-space: nowrap; }
-  .fee-val sub { font-size: 12px; font-weight: 600; vertical-align: middle; }
-
-  /* ═══════════════════════════════════════════
-     PROGRESS STEPS
-  ═══════════════════════════════════════════ */
-  .steps { display: flex; flex-direction: column; }
-
-  .step {
-    display: flex; gap: 14px;
-    padding: 14px 0;
-    position: relative;
-  }
-  /* connecteur vertical */
-  .step:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    left: 15px; top: 44px; bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--green-400), var(--gray-100));
-  }
-
-  .step-icon {
-    width: 32px; height: 32px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; position: relative; z-index: 2;
-  }
-  .step-icon.done {
-    background: var(--green-600);
-    box-shadow: 0 4px 12px rgba(0,107,60,0.3);
-  }
-  .step-icon.active {
-    background: var(--white);
-    border: 2px solid var(--warn);
-    box-shadow: 0 0 0 5px rgba(224,123,32,0.12);
-    animation: warnPulse 2s ease-in-out infinite;
-  }
-  .step-icon.pending {
-    background: var(--white);
-    border: 2px solid var(--gray-200);
-  }
-  @keyframes warnPulse {
-    0%,100% { box-shadow: 0 0 0 5px rgba(224,123,32,0.12); }
-    50%      { box-shadow: 0 0 0 10px rgba(224,123,32,0.04); }
-  }
-  .step-icon svg { width: 14px; height: 14px; stroke: var(--white); fill: none; stroke-width: 2.5; stroke-linecap: round; }
-  .step-icon.active svg  { stroke: var(--warn); }
-  .step-icon.pending svg { stroke: var(--gray-400); }
-
-  .step-body { flex: 1; min-width: 0; }
-  .step-name { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 2px; }
-  .step-desc { font-size: 12px; color: var(--gray-400); line-height: 1.5; }
-
-  .step-bar {
-    height: 4px; background: var(--gray-100);
-    border-radius: 100px; overflow: hidden; margin-top: 9px;
-  }
-  .step-bar-fill {
-    height: 100%; width: 0%; border-radius: 100px;
-    position: relative; overflow: hidden;
-  }
-  .step-bar-fill.green  { background: linear-gradient(90deg, var(--green-600), var(--green-400)); }
-  .step-bar-fill.orange { background: linear-gradient(90deg, var(--warn), #F5A323); }
-  .step-bar-fill::after {
-    content: ''; position: absolute; top:0; left:-100%; bottom:0; width:70%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-    animation: shim 2.2s ease-in-out infinite;
-  }
-  @keyframes shim { to { left: 160%; } }
-
-  .step-pct { font-size: 17px; font-weight: 800; flex-shrink: 0; padding-top: 2px; }
-  .step-pct.green  { color: var(--green-700); }
-  .step-pct.orange { color: var(--warn); }
-  .step-pct.muted  { color: var(--gray-300); }
-
-  /* circle */
-  .circ-wrap { display: flex; justify-content: center; padding: 18px 0 4px; }
-  .circ-outer { position: relative; width: 120px; height: 120px; }
-  .circ-svg   { width: 120px; height: 120px; transform: rotate(-90deg); }
-  .circ-bg    { fill: none; stroke: var(--gray-100); stroke-width: 8; }
-  .circ-fill  {
-    fill: none; stroke: url(#cg); stroke-width: 8; stroke-linecap: round;
-    stroke-dasharray: 326.73; stroke-dashoffset: 326.73;
-    transition: stroke-dashoffset 0.12s linear;
-    filter: drop-shadow(0 3px 8px rgba(0,107,60,0.25));
-  }
-  .circ-inner {
-    position: absolute; inset:0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-  }
-  .circ-pct  { font-size: 26px; font-weight: 800; color: var(--green-800); line-height: 1; }
-  .circ-sub  { font-size: 9px; font-weight: 600; color: var(--gray-400); letter-spacing: 1px; text-transform: uppercase; }
-
-  /* ═══════════════════════════════════════════
-     STATUS CARD
-  ═══════════════════════════════════════════ */
-  .status-row {
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .status-text-title { font-size: 15px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
-  .status-text-sub   { font-size: 12px; color: var(--gray-400); font-weight: 500; }
-  .status-pill {
-    display: flex; align-items: center; gap: 7px;
-    background: var(--green-100);
-    border: 1px solid rgba(0,168,90,0.25);
-    padding: 8px 16px; border-radius: 100px;
-    font-size: 12px; font-weight: 700; color: var(--green-700);
-    white-space: nowrap;
-  }
-
-  /* ═══════════════════════════════════════════
-     BUTTON
-  ═══════════════════════════════════════════ */
-
-  /* mobile: fixé en bas */
-  .btn-mobile {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    padding: 14px 16px 28px;
-    background: linear-gradient(to top, var(--white) 60%, rgba(255,255,255,0));
-    pointer-events: none;
-    z-index: 150;
-  }
-  .btn-mobile .cta { pointer-events: auto; }
-
-  /* desktop: dans le flux */
-  .btn-desktop { display: none; margin-top: 4px; }
-
-  .cta {
-    width: 100%;
-    padding: 17px 24px;
-    background: var(--green-700);
-    color: var(--white);
-    font-family: var(--font);
-    font-size: 15px; font-weight: 700; letter-spacing: 0.3px;
-    border: none; border-radius: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 9px;
-    box-shadow: var(--shadow-green);
-    position: relative; overflow: hidden;
-    opacity: 0; animation: cardIn 0.6s 1s cubic-bezier(0.16,1,0.3,1) forwards;
-    transition: background 0.18s, transform 0.15s, box-shadow 0.15s;
-  }
-  .cta:hover  { background: var(--green-800); transform: translateY(-1px); box-shadow: 0 12px 32px rgba(0,77,44,0.35); }
-  .cta:active { transform: scale(0.97); box-shadow: var(--shadow-md); }
-  .cta svg    { width: 17px; height: 17px; stroke: var(--white); fill: none; stroke-width: 2.8; stroke-linecap: round; }
-  /* shine */
-  .cta::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.22) 50%, transparent 75%);
-    transform: translateX(-100%);
-    animation: shine 4s ease-in-out 1.8s infinite;
-  }
-  @keyframes shine {
-    0%,80%,100% { transform: translateX(-100%); }
-    20%          { transform: translateX(200%); }
-  }
-
-  /* ═══════════════════════════════════════════
-     MOBILE BOTTOM NAV
-  ═══════════════════════════════════════════ */
-  .bottom-nav {
-    display: flex;
-    background: var(--white);
-    border-top: 1px solid var(--gray-100);
-    position: fixed; bottom: 0; left: 0; right: 0;
-    z-index: 140;
-    padding: 8px 0 20px;
-    justify-content: space-around;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
-  }
-  .nav-it {
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    font-size: 10px; font-weight: 600; color: var(--gray-400);
-    cursor: pointer; padding: 2px 20px;
-    transition: color 0.15s;
-  }
-  .nav-it.active { color: var(--green-700); }
-  .nav-it svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 2; }
-
-  /* ═══════════════════════════════════════════
-     TABLET  ≥ 640px
-  ═══════════════════════════════════════════ */
-  @media (min-width: 640px) {
-    .mobile-header { padding: 60px 28px 44px; }
-    .topbar { display: flex; }
-    .topbar-logo { display: flex; } /* logo visible sur tablet */
-
-    .content { padding: 20px 24px 110px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+    /* RESET & GLOBAL */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    .col-full { grid-column: 1 / -1; }
 
-    .btn-mobile { padding: 14px 24px 32px; }
-    .bottom-nav { padding: 8px 0 12px; }
-  }
-
-  /* ═══════════════════════════════════════════
-     DESKTOP  ≥ 1024px
-  ═══════════════════════════════════════════ */
-  @media (min-width: 1024px) {
-    /* sidebar */
-    .sidebar { display: flex; }
-    .main    { margin-left: 256px; }
-
-    /* masquer header mobile et nav bas */
-    .mobile-header { display: none; }
-    .bottom-nav    { display: none; }
-    .btn-mobile    { display: none; }
-
-    /* topbar desktop: cacher logo (déjà dans sidebar) */
-    .topbar-logo { display: none; }
-    .topbar-divider { display: none; }
-    .topbar { padding: 0 40px; }
-
-    /* contenu */
-    .content { padding: 32px 40px 60px; }
-
-    /* hero card visible */
-    .hero-card { display: block; }
-
-    /* grille 3 colonnes */
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(145deg, #c8e6c9 0%, #a5d6a7 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;                /* plein écran */
+      margin: 0;
+      padding: 16px;                     /* espace pour petits écrans */
+      -webkit-font-smoothing: antialiased;
     }
-    .col-full { grid-column: 1 / -1; }
 
-    .card { padding: 26px 24px; border-radius: 20px; }
-    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); transition: all 0.2s; }
+    /* CARTE RESPONSIVE – s'adapte à tout écran */
+    .card {
+      background: #ffffff;
+      border-radius: 32px;                /* plus doux sur mobile */
+      padding: clamp(24px, 6vw, 44px) clamp(20px, 5vw, 40px);
+      width: 100%;
+      max-width: 460px;                    /* largeur max confortable */
+      box-shadow: 0 20px 40px rgba(0, 40, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: fadeScale 0.5s ease-out;
+      transition: all 0.2s;
+    }
 
-    /* bouton desktop dans la grille */
-    .btn-desktop { display: block; }
-    .cta { font-size: 16px; padding: 18px 28px; }
-  }
+    @keyframes fadeScale {
+      0% { opacity: 0; transform: scale(0.96) translateY(12px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* CERCLE DE CONFIRMATION */
+    .check-circle {
+      width: min(90px, 22vw);            /* taille proportionnelle */
+      height: min(90px, 22vw);
+      background: linear-gradient(135deg, #2e7d32, #1b5e20);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px auto;
+      box-shadow: 0 10px 18px rgba(27, 94, 32, 0.3);
+      animation: popGlow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.15s both;
+    }
+
+    @keyframes popGlow {
+      0% { transform: scale(0.2); opacity: 0; box-shadow: 0 0 0 rgba(0,80,0,0); }
+      60% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; box-shadow: 0 12px 24px rgba(21, 87, 36, 0.5); }
+    }
+
+    .check-circle svg {
+      width: 48%;
+      height: 48%;
+      stroke: #ffffff;
+      stroke-width: 3.5;
+      fill: none;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: draw 0.45s ease 0.6s forwards;
+    }
+
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* TITRE */
+    h1 {
+      font-size: clamp(20px, 6vw, 28px);
+      font-weight: 800;
+      color: #1b2e1f;
+      margin-bottom: 20px;
+      letter-spacing: -0.3px;
+      line-height: 1.3;
+    }
+
+    /* MESSAGE D'AVERTISSEMENT (avec le texte personnalisé) */
+    .warning-box {
+      background: #fff3cd;
+      border-left: 8px solid #f9a825;
+      border-radius: 20px;
+      padding: 18px 14px;
+      margin-bottom: 24px;
+      font-size: clamp(15px, 4vw, 17px);
+      font-weight: 700;
+      color: #3e2e1f;
+      line-height: 1.6;
+      text-align: left;
+      box-shadow: inset 0 -2px 0 #ffe082;
+      animation: fadeIn 0.5s 0.3s both;
+    }
+
+    /* zone de texte secondaire (petite précision) */
+    .info-message {
+      background: #e8f0fe;
+      border-radius: 14px;
+      padding: 12px;
+      margin: 10px 0 18px 0;
+      font-size: 14px;
+      color: #1a3b2e;
+      border: 1px solid #a5d6a7;
+      font-weight: 600;
+    }
+
+    /* BARRE DE PROGRÈS */
+    .progress-wrap {
+      background: #cfd8dc;
+      border-radius: 60px;
+      height: 42px;                       /* plus facile à toucher */
+      overflow: hidden;
+      margin-bottom: 18px;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+      animation: fadeIn 0.6s 0.45s both;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;                           /* sera modifié par js */
+      background: repeating-linear-gradient(
+        -45deg,
+        #43a047,
+        #43a047 14px,
+        #2e7d32 14px,
+        #2e7d32 28px
+      );
+      background-size: 40px 40px;
+      animation: moveStripes 0.8s linear infinite;
+      transition: width 1.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+      border-radius: 60px;
+    }
+
+    @keyframes moveStripes {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 0; }
+    }
+
+    .progress-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 2px 5px #1f3a1f;
+      letter-spacing: 1px;
+    }
+
+    /* MONTANT À PAYER (bien visible) */
+    .fee-text {
+      background: #ffebee;
+      border-radius: 40px;
+      padding: 14px 8px;
+      font-size: clamp(18px, 5.5vw, 22px);
+      font-weight: 800;
+      color: #b71c1c;
+      margin: 20px 0 22px 0;
+      border: 1px solid #ef9a9a;
+      box-shadow: 0 3px 0 #b71c1c;
+    }
+
+    /* BOUTONS GRANDS, ADAPTÉS AUX DOIGTS */
+    .btn-receipt {
+      display: block;
+      width: 100%;
+      padding: 18px 10px;
+      background: linear-gradient(145deg, #43a047, #1b5e20);
+      border: none;
+      border-radius: 60px;                /* tout doux */
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(18px, 5vw, 22px);
+      font-weight: 800;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: transform 0.1s ease, box-shadow 0.2s;
+      box-shadow: 0 10px 18px rgba(27, 94, 32, 0.5);
+      border: 1px solid #81c784;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-receipt:hover {
+      transform: scale(1.02);
+      background: linear-gradient(145deg, #4caf50, #2e7d32);
+    }
+
+    .btn-receipt:active {
+      transform: scale(0.98);
+      box-shadow: 0 4px 8px #1b5e20;
+    }
+
+    .btn-close {
+      background: transparent;
+      border: 2px solid #2e7d32;
+      color: #1b5e20;
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(16px, 4.5vw, 19px);
+      font-weight: 700;
+      padding: 14px 8px;
+      border-radius: 50px;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.18s;
+      background-color: rgba(255,255,240,0.6);
+    }
+
+    .btn-close:hover {
+      background-color: #e8f5e9;
+      border-color: #1b5e20;
+      color: #0d3d13;
+    }
+
+    .btn-close:active {
+      background-color: #c8e6c9;
+    }
+
+    /* animation fadeIn générique */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* adaptation très petits écrans (moins de 360px) */
+    @media (max-width: 380px) {
+      .card {
+        padding: 20px 16px;
+      }
+      .warning-box {
+        padding: 12px 10px;
+      }
+      .fee-text {
+        font-size: 18px;
+      }
+    }
   </style>
-
 </head>
 <body>
 
-<div class="app">
-
-  <!-- ════════ SIDEBAR ════════ -->
-
-  <aside class="sidebar">
-    <div class="sb-brand">
-      <div class="sb-icon">КБ</div>
-      <div>
-        <span class="sb-brand-name">KHAN BANK</span>
-        <span class="sb-brand-sub">Интернет банк</span>
-      </div>
-    </div>
-
-```
-<nav class="sb-nav">
-  <div class="sb-item">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Нүүр
-  </div>
-  <div class="sb-item active">
-    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    Гүйлгээ
-  </div>
-  <div class="sb-item">
-    <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="22" y1="10" x2="2" y2="10"/></svg>
-    Данс
-  </div>
-  <div class="sb-item">
-    <svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-    Зээл
-  </div>
-  <div class="sb-item">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-    Түүх
-  </div>
-  <div class="sb-item">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20v-2a7 7 0 0 1 14 0v2"/></svg>
-    Профайл
-  </div>
-</nav>
-
-<div class="sb-footer">
-  <div class="sb-user">
-    <div class="sb-avatar">О</div>
-    <div>
-      <div class="sb-user-name">ОЮУН</div>
-      <div class="sb-user-sub">595486873</div>
-    </div>
-  </div>
-</div>
-```
-
-  </aside>
-
-  <!-- ════════ MAIN ════════ -->
-
-  <div class="main">
-
-```
-<!-- TOPBAR -->
-<header class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-logo">
-      <div class="topbar-logo-icon">КБ</div>
-      <span class="topbar-logo-name">KHAN BANK</span>
-    </div>
-    <div class="topbar-divider"></div>
-    <div class="topbar-breadcrumb">
-      Нүүр
-      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      <strong>Гүйлгээ баталгаажуулах</strong>
-    </div>
-  </div>
-  <div class="topbar-right">
-    <div class="topbar-status">
-      <div class="pulse"></div>
-      Боловсруулж байна
-    </div>
-    <div class="topbar-avatar">О</div>
-  </div>
-</header>
-
-<!-- MOBILE HEADER -->
-<div class="mobile-header">
-  <div class="mh-circle1"></div>
-  <div class="mh-circle2"></div>
-
-  <div class="mh-top">
-    <div class="mh-back" id="backBtn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-    </div>
-    <div class="mh-brand">
-      <div class="mh-logo">КБ</div>
-      <div>
-        <span class="mh-name">KHAN BANK</span>
-        <span class="mh-sub">Гүйлгээ</span>
-      </div>
-    </div>
-    <div style="width:40px;"></div>
+<div class="card">
+  <!-- coche animée -->
+  <div class="check-circle">
+    <svg viewBox="0 0 24 24">
+      <polyline points="4,12 9,17 20,6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </div>
 
-  <div class="mh-amount-area">
-    <div class="mh-label">Нийт дүн</div>
-    <div class="mh-amount" id="mobileAmt">₮ 0 <sub>MNT</sub></div>
-    <div class="mh-meta">
-      <div class="mh-dot"></div>
-      <span>595486873 ОЮУН</span>
-      <span>·</span>
-      <span>2026.02.26</span>
-    </div>
+  <!-- Titre principal -->
+  <h1>✨ Гүйлгээ идэвхжсэн ✨</h1>
+
+  <!-- Message personnalisé avec félicitations et explication -->
+  <div class="warning-box">
+    <span style="font-size:1.3em; margin-right:6px;">✅</span> 
+    <strong>Баяр хүргэе, эцэг ээ.</strong> Гүйлгээ аль хэдийн амжилттай дууссан. 
+    Та гүйлгээг <strong>идэвхжүүлэх хураамжийг</strong> төлөх шаардлагатайг ойлгоно уу. 
+    Төлбөрөө хийсний дараа дансаа шалгана уу.
   </div>
+
+  <!-- Petit rappel (optionnel mais renforce le texte) -->
+  <div class="info-message">
+    Сүүлийн алхам: доорх хураамжийг төлснөөр гүйлгээ бүрэн нээгдэнэ.
+  </div>
+
+  <!-- barre 99% -->
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressFill"></div>
+    <div class="progress-label">99%</div>
+  </div>
+
+  <!-- Montant forfaitaire -->
+  <div class="fee-text">
+    Төгсгөлийн хураамж: <strong>176 000 төгрөг</strong>
+  </div>
+
+  <!-- Bouton principal "Баримтыг авах" (recevoir le reçu) -->
+  <button class="btn-receipt" id="receiptBtn">Баримтыг авах</button>
+
+  <!-- Bouton secondaire "Дугсрах" (fermer) -->
+  <button class="btn-close" id="closeBtn">✕ Дугсрах</button>
+
 </div>
 
-<!-- CONTENT -->
-<div class="content">
-
-  <!-- Desktop hero -->
-  <div class="hero-card">
-    <div class="mh-circle1" style="top:-40px;right:-40px;width:240px;height:240px;"></div>
-    <div class="hero-label">Нийт гүйлгээний дүн</div>
-    <div class="hero-amount" id="desktopAmt">₮ 0 <sub>MNT</sub></div>
-    <div class="hero-meta">
-      <div class="mh-dot"></div>
-      <span>595486873 ОЮУН</span>
-      <span>·</span>
-      <span>Khan Bank</span>
-      <span>·</span>
-      <span>2026.02.26</span>
-    </div>
-  </div>
-
-  <!-- GRID -->
-  <div class="grid">
-
-    <!-- ── Card 1: Дэлгэрэнгүй ── -->
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
-        Гүйлгээний дэлгэрэнгүй
-      </div>
-
-      <div class="row">
-        <span class="row-label">
-          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-          Банк
-        </span>
-        <span class="row-value">Khan Bank</span>
-      </div>
-
-      <div class="row">
-        <span class="row-label">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          Огноо
-        </span>
-        <span class="row-value">2026.02.26</span>
-      </div>
-
-      <div class="row">
-        <span class="row-label">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          Дүн
-        </span>
-        <span class="row-value big">9,000,000 <sub>MNT</sub></span>
-      </div>
-
-      <div class="acct">
-        <span class="acct-label">Хүлээн авагчийн данс</span>
-        <span class="acct-num">595486873 ОЮУН</span>
-      </div>
-
-      <div class="fee">
-        <div class="fee-info">
-          <div class="fee-name">⚡ ХҮРГЭЛТИЙН ХУРААМЖ</div>
-          <div class="fee-desc">Шилжүүлгийн тусгай хураамж</div>
-        </div>
-        <div class="fee-val">320,000 <sub>MNT</sub></div>
-      </div>
-    </div>
-
-    <!-- ── Card 2: Дэвшил ── -->
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9-4-18-3 9H2"/></svg>
-        Дэвшлийн байдал
-      </div>
-
-      <div class="steps">
-
-        <!-- Step 1 -->
-        <div class="step">
-          <div class="step-icon done">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="step-body">
-            <div class="step-name">Идэвхжүүлэлт</div>
-            <div class="step-desc">Баталгаажуулалт амжилттай</div>
-            <div class="step-bar"><div class="step-bar-fill green" id="bar1"></div></div>
-          </div>
-          <div class="step-pct green" id="pct1">0%</div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="step">
-          <div class="step-icon active">
-            <svg viewBox="0 0 24 24" stroke="var(--warn)"><circle cx="12" cy="12" r="8"/><line x1="12" y1="8" x2="12" y2="12"/></svg>
-          </div>
-          <div class="step-body">
-            <div class="step-name">Хүргэлт</div>
-            <div class="step-desc">320,000 MNT · Шилжиж байна…</div>
-            <div class="step-bar"><div class="step-bar-fill orange" id="bar2"></div></div>
-          </div>
-          <div class="step-pct orange" id="pct2">0%</div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="step">
-          <div class="step-icon pending">
-            <svg viewBox="0 0 24 24" stroke="var(--gray-400)"><circle cx="12" cy="8" r="4"/><path d="M5 20v-2a7 7 0 0 1 14 0v2"/></svg>
-          </div>
-          <div class="step-body">
-            <div class="step-name">Нээлт</div>
-            <div class="step-desc">Данс нээх үйл явц</div>
-            <div class="circ-wrap">
-              <div class="circ-outer">
-                <svg class="circ-svg" viewBox="0 0 120 120">
-                  <defs>
-                    <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="#006B3C"/>
-                      <stop offset="100%" stop-color="#00C96F"/>
-                    </linearGradient>
-                  </defs>
-                  <circle class="circ-bg"   cx="60" cy="60" r="52"/>
-                  <circle class="circ-fill" id="circFill" cx="60" cy="60" r="52"/>
-                </svg>
-                <div class="circ-inner">
-                  <div class="circ-pct" id="circPct">0%</div>
-                  <div class="circ-sub">Дууссан</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="step-pct muted" id="pct3">—</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── Card 3: Төлөв ── -->
-    <div class="card col-full" style="padding: 20px 22px;">
-      <div class="status-row">
-        <div>
-          <div class="status-text-title">Гүйлгээний төлөв</div>
-          <div class="status-text-sub">Khan Bank · 2026.02.26 · 595486873</div>
-        </div>
-        <div class="status-pill">
-          <div class="pulse"></div>
-          Боловсруулж байна
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Desktop button ── -->
-    <div class="btn-desktop col-full">
-      <button class="cta" id="ctaDesktop">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-        Гүйлгээ дуусгах
-      </button>
-    </div>
-
-  </div><!-- /grid -->
-</div><!-- /content -->
-
-<!-- Mobile button -->
-<div class="btn-mobile">
-  <button class="cta" id="ctaMobile">
-    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    Гүйлгээ дуусгах
-  </button>
-</div>
-```
-
-  </div><!-- /main -->
-</div><!-- /app -->
-
-<!-- Bottom nav (mobile only) -->
-
-<nav class="bottom-nav">
-  <div class="nav-it active">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Нүүр
-  </div>
-  <div class="nav-it">
-    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    Гүйлгээ
-  </div>
-  <div class="nav-it">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20v-2a7 7 0 0 1 14 0v2"/></svg>
-    Профайл
-  </div>
-</nav>
-
+<!-- Petit script pour la barre de progression et interactions (responsive) -->
 <script>
-(function () {
-  /* ── easing ── */
-  function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+  (function() {
+    // 1. Barre de progression -> 99% après un court délai
+    const progressBar = document.getElementById('progressFill');
+    if (progressBar) {
+      // on attend que le dom soit bien peint, puis on élargit
+      setTimeout(() => {
+        progressBar.style.width = '99%';
+      }, 200);
+    }
 
-  /* ── counter ── */
-  function counter(ids, target, dur, delay) {
-    ids.forEach(function(id) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      setTimeout(function () {
-        var t0 = performance.now();
-        (function tick(now) {
-          var t = Math.min((now - t0) / dur, 1);
-          var v = Math.round(easeOutQuart(t) * target);
-          el.innerHTML = '₮ ' + v.toLocaleString('mn-MN') + ' <sub>MNT</sub>';
-          if (t < 1) requestAnimationFrame(tick);
-          else el.innerHTML = '₮ ' + target.toLocaleString('mn-MN') + ' <sub>MNT</sub>';
-        })(t0);
-      }, delay);
-    });
-  }
+    // 2. Simulation bouton "Баримтыг авах" (alerte ou lien factice)
+    const receiptBtn = document.getElementById('receiptBtn');
+    if (receiptBtn) {
+      receiptBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // sur mobile comme desktop, on simule un téléchargement / info
+        alert('Баримт бэлтгэж байна... Та төлбөрөө баталгаажуулна уу.');
+        // on peut aussi simuler un lien "receipt.pdf" – mais simple pop-up
+      });
+    }
 
-  /* ── bar ── */
-  function bar(barId, pctId, target, dur, delay) {
-    setTimeout(function () {
-      var b = document.getElementById(barId);
-      var p = document.getElementById(pctId);
-      if (!b || !p) return;
-      var t0 = performance.now();
-      (function tick(now) {
-        var t  = Math.min((now - t0) / dur, 1);
-        var v  = Math.max(0, Math.min(100, easeOutQuart(t) * target));
-        b.style.width    = v + '%';
-        p.textContent    = Math.round(v) + '%';
-        if (p.classList.contains('muted') && v > 0) {
-          p.classList.replace('muted', 'green');
+    // 3. Bouton fermer / "Дугсрах"
+    const closeBtn = document.getElementById('closeBtn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        // simple action : message ou retour
+        if (confirm('Та хаахыг хүсч байна уу? Төлбөр хүлээгдэж байгааг санаарай.')) {
+          // sur certains navigateurs, on peut juste fermer l'onglet si popup? mais ici on simule
+          alert('Дугсрах... (цонх хаагдах боломжгүй — demo)');
         }
-        if (t < 1) requestAnimationFrame(tick);
-        else { b.style.width = target + '%'; p.textContent = target + '%'; }
-      })(t0);
-    }, delay);
-  }
+      });
+    }
 
-  /* ── circle ── */
-  function circle(target, dur, delay) {
-    var r    = 52;
-    var circ = 2 * Math.PI * r; // 326.73
-    var fill = document.getElementById('circFill');
-    var pct  = document.getElementById('circPct');
-    var p3   = document.getElementById('pct3');
-    if (!fill || !pct) return;
-    setTimeout(function () {
-      var t0 = performance.now();
-      (function tick(now) {
-        var t  = Math.min((now - t0) / dur, 1);
-        var v  = easeOutQuart(t) * target;
-        fill.style.strokeDashoffset = circ - (v / 100) * circ;
-        var d = Math.round(v);
-        pct.textContent = d + '%';
-        if (p3) {
-          p3.textContent = d > 0 ? d + '%' : '—';
-          if (d > 0) { p3.className = 'step-pct green'; }
-        }
-        if (t < 1) requestAnimationFrame(tick);
-        else {
-          fill.style.strokeDashoffset = circ - (target / 100) * circ;
-          pct.textContent = target + '%';
-          if (p3) { p3.textContent = target + '%'; p3.className = 'step-pct green'; }
-        }
-      })(t0);
-    }, delay);
-  }
+    // Bonus : ajuster la hauteur min du body sur vieux téléphones
+    function setMinHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+      document.body.style.minHeight = `${window.innerHeight}px`;
+    }
+    window.addEventListener('resize', setMinHeight);
+    setMinHeight();
 
-  /* ── boutons ── */
-  function setupBtn(id) {
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var orig = this.innerHTML;
-      this.disabled = true;
-      this.innerHTML = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="white" stroke-width="2.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Боловсруулж байна…';
-      this.style.opacity = '0.75';
-      var self = this;
-      setTimeout(function () {
-        self.innerHTML = orig;
-        self.style.opacity = '';
-        self.disabled = false;
-      }, 2200);
-    });
-  }
-
-  /* ── launch ── */
-  counter(['mobileAmt', 'desktopAmt'], 9000000, 1400, 400);
-  bar('bar1', 'pct1', 100, 1400, 700);
-  bar('bar2', 'pct2', 75,  1600, 1000);
-  circle(100, 2400, 1350);
-  setupBtn('ctaMobile');
-  setupBtn('ctaDesktop');
-})();
+  })();
 </script>
 
+<!-- Note : le message est entièrement intégré, la carte est fluide 
+     et le texte "Баяр хүргее, эцэг ээ. Гүйлгээ аль хэдийн амжилттай дууссан..." 
+     apparaît dans warning-box comme demandé. -->
 </body>
 </html>
