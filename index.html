@@ -2,13 +2,10 @@
 <html lang="mn">
 <head>
   <meta charset="UTF-8">
-  <!-- Responsive meta tag indispensable -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Гүйлгээ идэвхжүүлэх – амжилттай</title>
-  <!-- Police lisible sur petits écrans -->
+  <title>Гүйлгээ идэвхжүүлэх – АМЖИЛТТАЙ 100%</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* RESET & GLOBAL */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -17,27 +14,27 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(145deg, #c8e6c9 0%, #a5d6a7 100%);
+      background: linear-gradient(145deg, #c8e6c9 0%, #81c784 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;                /* plein écran */
+      min-height: 100vh;
       margin: 0;
-      padding: 16px;                     /* espace pour petits écrans */
+      padding: 16px;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* CARTE RESPONSIVE – s'adapte à tout écran */
     .card {
       background: #ffffff;
-      border-radius: 32px;                /* plus doux sur mobile */
+      border-radius: 32px;
       padding: clamp(24px, 6vw, 44px) clamp(20px, 5vw, 40px);
       width: 100%;
-      max-width: 460px;                    /* largeur max confortable */
-      box-shadow: 0 20px 40px rgba(0, 40, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;                    /* légèrement plus large pour aisance */
+      box-shadow: 0 25px 45px rgba(0, 60, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.1);
       text-align: center;
       animation: fadeScale 0.5s ease-out;
       transition: all 0.2s;
+      border: 1px solid #a5d6a7;
     }
 
     @keyframes fadeScale {
@@ -45,110 +42,107 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* CERCLE DE CONFIRMATION */
     .check-circle {
-      width: min(90px, 22vw);            /* taille proportionnelle */
-      height: min(90px, 22vw);
-      background: linear-gradient(135deg, #2e7d32, #1b5e20);
+      width: min(100px, 24vw);
+      height: min(100px, 24vw);
+      background: linear-gradient(135deg, #1e5f2a, #0d4518);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px auto;
-      box-shadow: 0 10px 18px rgba(27, 94, 32, 0.3);
-      animation: popGlow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.15s both;
+      margin: 0 auto 16px auto;
+      box-shadow: 0 12px 24px rgba(0, 70, 0, 0.4);
+      animation: popGlow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.1s both;
     }
 
     @keyframes popGlow {
       0% { transform: scale(0.2); opacity: 0; box-shadow: 0 0 0 rgba(0,80,0,0); }
-      60% { transform: scale(1.05); }
-      100% { transform: scale(1); opacity: 1; box-shadow: 0 12px 24px rgba(21, 87, 36, 0.5); }
+      60% { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; box-shadow: 0 16px 28px #1b4b1b; }
     }
 
     .check-circle svg {
-      width: 48%;
-      height: 48%;
+      width: 52%;
+      height: 52%;
       stroke: #ffffff;
-      stroke-width: 3.5;
+      stroke-width: 3.8;
       fill: none;
-      stroke-dasharray: 48;
-      stroke-dashoffset: 48;
-      animation: draw 0.45s ease 0.6s forwards;
+      stroke-dasharray: 52;
+      stroke-dashoffset: 52;
+      animation: draw 0.45s ease 0.5s forwards;
     }
 
     @keyframes draw {
       to { stroke-dashoffset: 0; }
     }
 
-    /* TITRE */
     h1 {
-      font-size: clamp(20px, 6vw, 28px);
+      font-size: clamp(22px, 7vw, 32px);
       font-weight: 800;
-      color: #1b2e1f;
-      margin-bottom: 20px;
-      letter-spacing: -0.3px;
-      line-height: 1.3;
+      color: #0d3e14;
+      margin-bottom: 18px;
+      letter-spacing: -0.4px;
+      line-height: 1.2;
+      text-shadow: 0 2px 4px rgba(0,60,0,0.08);
     }
 
-    /* MESSAGE D'AVERTISSEMENT (avec le texte personnalisé) */
-    .warning-box {
-      background: #fff3cd;
-      border-left: 8px solid #f9a825;
-      border-radius: 20px;
-      padding: 18px 14px;
-      margin-bottom: 24px;
-      font-size: clamp(15px, 4vw, 17px);
+    /* БҮРЭН АМЖИЛТТАЙ МЭДЭЭ */
+    .final-success {
+      background: #d4edda;
+      border-left: 10px solid #1e7e34;
+      border-radius: 24px;
+      padding: 22px 16px;
+      margin-bottom: 22px;
+      font-size: clamp(16px, 4.5vw, 19px);
       font-weight: 700;
-      color: #3e2e1f;
+      color: #023b13;
       line-height: 1.6;
       text-align: left;
-      box-shadow: inset 0 -2px 0 #ffe082;
-      animation: fadeIn 0.5s 0.3s both;
+      box-shadow: 0 4px 10px rgba(0,100,0,0.1);
+      animation: fadeIn 0.5s 0.2s both;
     }
 
-    /* zone de texte secondaire (petite précision) */
+    .final-success span {
+      background: #1e7e34;
+      color: white;
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.9rem;
+      margin-right: 12px;
+      display: inline-block;
+      font-weight: 800;
+    }
+
     .info-message {
-      background: #e8f0fe;
-      border-radius: 14px;
-      padding: 12px;
+      background: #e0f2e2;
+      border-radius: 18px;
+      padding: 14px;
       margin: 10px 0 18px 0;
-      font-size: 14px;
-      color: #1a3b2e;
-      border: 1px solid #a5d6a7;
+      font-size: 15px;
+      color: #0a401a;
+      border: 1px solid #5faf67;
       font-weight: 600;
     }
 
-    /* BARRE DE PROGRÈS */
+    /* PROGRESS 100% rempli, sans rayures (plus statique, mais on garde un effet doux) */
     .progress-wrap {
       background: #cfd8dc;
       border-radius: 60px;
-      height: 42px;                       /* plus facile à toucher */
+      height: 48px;                       /* encore plus facile à toucher */
       overflow: hidden;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
       position: relative;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-      animation: fadeIn 0.6s 0.45s both;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+      animation: fadeIn 0.6s 0.3s both;
     }
 
     .progress-bar {
       height: 100%;
-      width: 0%;                           /* sera modifié par js */
-      background: repeating-linear-gradient(
-        -45deg,
-        #43a047,
-        #43a047 14px,
-        #2e7d32 14px,
-        #2e7d32 28px
-      );
-      background-size: 40px 40px;
-      animation: moveStripes 0.8s linear infinite;
-      transition: width 1.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+      width: 100%;                         /* 100% complet */
+      background: linear-gradient(90deg, #2e7d32, #43a047, #66bb6a);
+      transition: width 1s cubic-bezier(0.2, 0.9, 0.3, 1);
       border-radius: 60px;
-    }
-
-    @keyframes moveStripes {
-      0% { background-position: 0 0; }
-      100% { background-position: 40px 0; }
+      box-shadow: inset 0 2px 8px rgba(255,255,200,0.6);
     }
 
     .progress-label {
@@ -157,182 +151,192 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 900;
       color: #ffffff;
-      text-shadow: 0 2px 5px #1f3a1f;
-      letter-spacing: 1px;
+      text-shadow: 0 3px 6px #1f3a1f;
+      letter-spacing: 1.5px;
     }
 
-    /* MONTANT À PAYER (bien visible) */
+    /* ШИНЭ СТАТУС: төлбөр төлсөн гэдгийг харуулах */
     .fee-text {
-      background: #ffebee;
+      background: #e8f5e9;
       border-radius: 40px;
-      padding: 14px 8px;
-      font-size: clamp(18px, 5.5vw, 22px);
+      padding: 16px 8px;
+      font-size: clamp(19px, 5.5vw, 24px);
       font-weight: 800;
-      color: #b71c1c;
-      margin: 20px 0 22px 0;
-      border: 1px solid #ef9a9a;
-      box-shadow: 0 3px 0 #b71c1c;
+      color: #0d521d;
+      margin: 20px 0 20px 0;
+      border: 2px solid #2e7d32;
+      box-shadow: 0 4px 0 #1b5e20;
     }
 
-    /* BOUTONS GRANDS, ADAPTÉS AUX DOIGTS */
+    .fee-text strong {
+      color: #b71c1c;                      /* montant toujours en rouge */
+      background: #ffffffb3;
+      padding: 6px 16px;
+      border-radius: 40px;
+      margin-left: 10px;
+      border: 1px solid #b71c1c;
+    }
+
+    /* BOUTONS enrichis */
     .btn-receipt {
       display: block;
       width: 100%;
-      padding: 18px 10px;
-      background: linear-gradient(145deg, #43a047, #1b5e20);
+      padding: 20px 10px;
+      background: linear-gradient(145deg, #2e7d32, #0f6318);
       border: none;
-      border-radius: 60px;                /* tout doux */
+      border-radius: 60px;
       color: white;
       font-family: 'Nunito', sans-serif;
-      font-size: clamp(18px, 5vw, 22px);
+      font-size: clamp(19px, 5vw, 24px);
       font-weight: 800;
       cursor: pointer;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       transition: transform 0.1s ease, box-shadow 0.2s;
-      box-shadow: 0 10px 18px rgba(27, 94, 32, 0.5);
-      border: 1px solid #81c784;
+      box-shadow: 0 12px 22px #1b5e20b3;
+      border: 1px solid #a5d6a7;
       letter-spacing: 0.5px;
     }
 
     .btn-receipt:hover {
       transform: scale(1.02);
-      background: linear-gradient(145deg, #4caf50, #2e7d32);
+      background: linear-gradient(145deg, #3b8b3f, #1e7327);
     }
 
     .btn-receipt:active {
-      transform: scale(0.98);
-      box-shadow: 0 4px 8px #1b5e20;
+      transform: scale(0.97);
+      box-shadow: 0 6px 12px #0d4a13;
     }
 
     .btn-close {
       background: transparent;
-      border: 2px solid #2e7d32;
-      color: #1b5e20;
+      border: 2.5px solid #1b5e20;
+      color: #0d521d;
       font-family: 'Nunito', sans-serif;
-      font-size: clamp(16px, 4.5vw, 19px);
-      font-weight: 700;
-      padding: 14px 8px;
+      font-size: clamp(17px, 4.5vw, 20px);
+      font-weight: 800;
+      padding: 16px 8px;
       border-radius: 50px;
       width: 100%;
       cursor: pointer;
       transition: 0.18s;
-      background-color: rgba(255,255,240,0.6);
+      background-color: #f1f9f1;
     }
 
     .btn-close:hover {
-      background-color: #e8f5e9;
-      border-color: #1b5e20;
-      color: #0d3d13;
+      background-color: #c8e6c9;
+      border-color: #0d521d;
+      color: #04380e;
     }
 
     .btn-close:active {
-      background-color: #c8e6c9;
+      background-color: #a5d6a7;
     }
 
-    /* animation fadeIn générique */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* adaptation très petits écrans (moins de 360px) */
+    /* petit badge */
+    .badge-100 {
+      background: gold;
+      color: #1b4b1b;
+      border-radius: 60px;
+      padding: 6px 18px;
+      font-size: 1rem;
+      font-weight: 900;
+      display: inline-block;
+      margin-bottom: 10px;
+      border: 2px solid #fb8b2c;
+      animation: glow 1.2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 6px #f9a825; }
+      to { box-shadow: 0 0 18px #ffb74d; }
+    }
+
     @media (max-width: 380px) {
-      .card {
-        padding: 20px 16px;
-      }
-      .warning-box {
-        padding: 12px 10px;
-      }
-      .fee-text {
-        font-size: 18px;
-      }
+      .card { padding: 20px 14px; }
+      .final-success { padding: 16px 10px; }
     }
   </style>
 </head>
 <body>
 
 <div class="card">
-  <!-- coche animée -->
+  <!-- petite pastille "100%" -->
+  <div class="badge-100">✅ 100% бүрэн</div>
+
+  <!-- coche animée plus éclatante -->
   <div class="check-circle">
     <svg viewBox="0 0 24 24">
       <polyline points="4,12 9,17 20,6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 
-  <!-- Titre principal -->
-  <h1>✨ Гүйлгээ идэвхжсэн ✨</h1>
+  <h1>✨ ГҮЙЛГЭЭ ИДЭВХЖИЛСАН ✨</h1>
 
-  <!-- Message personnalisé avec félicitations et explication -->
-  <div class="warning-box">
-    <span style="font-size:1.3em; margin-right:6px;">✅</span> 
-    <strong>Баяр хүргэе, эцэг ээ.</strong> Гүйлгээ аль хэдийн амжилттай дууссан. 
-    Та гүйлгээг <strong>идэвхжүүлэх хураамжийг</strong> төлөх шаардлагатайг ойлгоно уу. 
-    Төлбөрөө хийсний дараа дансаа шалгана уу.
+  <!-- шинэ, эцсийн мэдээлэл: 100% амжилттай төлбөр -->
+  <div class="final-success">
+    <span>✔</span> 
+    <strong>Баяр хүргэе, эцэг ээ.</strong> Гүйлгэа <strong>бүрэн идэвхжсэн</strong> – төлбөр 100% баталгаажсан. Таны данс нээлттэй, бэлэн.
   </div>
 
-  <!-- Petit rappel (optionnel mais renforce le texte) -->
+  <!-- төлбөр төлсөн тухай нэмэлт тэмдэглэл -->
   <div class="info-message">
-    Сүүлийн алхам: доорх хураамжийг төлснөөр гүйлгээ бүрэн нээгдэнэ.
+    ✅ Төлбөр амжилттай хийгдсэн. Доор баримт хэвлэх эсвэл буцах боломжтой.
   </div>
 
-  <!-- barre 99% -->
+  <!-- прогресс 100% (яг одоо бүрэн) -->
   <div class="progress-wrap">
-    <div class="progress-bar" id="progressFill"></div>
-    <div class="progress-label">99%</div>
+    <div class="progress-bar" id="progressFill" style="width:100%"></div>  <!-- style="width:100%" нэн даруй -->
+    <div class="progress-label">100%</div>
   </div>
 
-  <!-- Montant forfaitaire -->
+  <!-- Монгол төгрөгний дүн (төлсөн гэдэг нь тодорхой) -->
   <div class="fee-text">
-    Төгсгөлийн хураамж: <strong>190 000 MNT </strong>
+    Төлсөн дүн: <strong>420 000 MNT</strong>
   </div>
 
-  <!-- Bouton principal "Баримтыг авах" (recevoir le reçu) -->
-  <button class="btn-receipt" id="receiptBtn">Баримтыг авах</button>
+  <!-- том баримт авах товч -->
+  <button class="btn-receipt" id="receiptBtn"> Баримт татах / хэвлэх</button>
 
-  <!-- Bouton secondaire "Дугсрах" (fermer) -->
-  <button class="btn-close" id="closeBtn">✕ Дугсрах</button>
-
+  <!-- дугсрах товч (заах) -->
+  <button class="btn-close" id="closeBtn">✕ Цонх хаах</button>
 </div>
 
-<!-- Petit script pour la barre de progression et interactions (responsive) -->
 <script>
   (function() {
-    // 1. Barre de progression -> 99% après un court délai
-    const progressBar = document.getElementById('progressFill');
-    if (progressBar) {
-      // on attend que le dom soit bien peint, puis on élargit
-      setTimeout(() => {
-        progressBar.style.width = '99%';
-      }, 200);
-    }
-
-    // 2. Simulation bouton "Баримтыг авах" (alerte ou lien factice)
+    // За: бүх зүйл 100% тул прогрессийг шууд тогтооно (аль хэдийн style-д байгаа)
+    // Гэхдээ баталгаажуулахад дахиж өргөн тохируулах шаардлагагүй.
+    // Баримтын товч
     const receiptBtn = document.getElementById('receiptBtn');
     if (receiptBtn) {
       receiptBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        // sur mobile comme desktop, on simule un téléchargement / info
-        alert('Баримт бэлтгэж байна... Та төлбөрөө баталгаажуулна уу.');
-        // on peut aussi simuler un lien "receipt.pdf" – mais simple pop-up
+        // одоо төлбөр төлсөн тул баримт бэлэн гэсэн мэдээлэл
+        alert('✅ Баримт амжилттай бэлтгэгдлээ.\nДүн: 190 000 MNT\nТөлбөр төлөгч: Эцэг ээ\nГүйлгээ: ИДЭВХЖИСЭН');
+        // энд бас баталгаажуулалт хийж болно
       });
     }
 
-    // 3. Bouton fermer / "Дугсрах"
+    // Дугсрах (close) товч
     const closeBtn = document.getElementById('closeBtn');
     if (closeBtn) {
       closeBtn.addEventListener('click', function() {
-        // simple action : message ou retour
-        if (confirm('Та хаахыг хүсч байна уу? Төлбөр хүлээгдэж байгааг санаарай.')) {
-          // sur certains navigateurs, on peut juste fermer l'onglet si popup? mais ici on simule
-          alert('Дугсрах... (цонх хаагдах боломжгүй — demo)');
+        // эцсийн шат тул хаах гэж байгаа эсэхийг асуух
+        if (confirm('Та хаахыг хүсч байна уу? Төлбөр аль хэдийн 100% төлөгдсөн.')) {
+          alert('Баярлалаа. Та энэ хуудсыг хааж болно (демо хувилбар).');
+          // демо учраас зөвхөн мэдэгдэл
         }
       });
     }
 
-    // Bonus : ajuster la hauteur min du body sur vieux téléphones
+    // Vh тохируулга (өмнөх шиг)
     function setMinHeight() {
       let vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -341,11 +345,17 @@
     window.addEventListener('resize', setMinHeight);
     setMinHeight();
 
+    // Нэмэлт: прогресс 100% гэдгийг бататгах (хэрэв ямар нэгэн шалтгаанаар өргөн тохироогүй бол)
+    const progressFill = document.getElementById('progressFill');
+    if (progressFill) {
+        // аль хэдийн шууд style-д 100% байгаа, гэхдээ дахин тогтооё.
+        progressFill.style.width = '100%';
+    }
   })();
 </script>
 
-<!-- Note : le message est entièrement intégré, la carte est fluide 
-     et le texte "Баяр хүргее, эцэг ээ. Гүйлгээ аль хэдийн амжилттай дууссан..." 
-     apparaît dans warning-box comme demandé. -->
+<!-- ТАЙЛБАР: Энэ хуудсанд гүйлгээ 100% идэвхжсэн, төлбөр төлсөн гэдгийг тодорхой харуулсан.
+     Final-success хэсэгт "бүрэн идэвхжсэн, төлбөр 100% баталгаажсан" гэсэн.
+     Прогресс 100%, дүн нь 420,000 MNT, баримт авах товч ажиллана. -->
 </body>
 </html>
